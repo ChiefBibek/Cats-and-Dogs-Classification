@@ -10,6 +10,7 @@ model = load_model('model.keras')
 
 #preprocessing the image
 def preprocess(image):
+    # image = np.array(image)  # Convert the PIL image to numpy-array
     image = image.resize((64, 64))  # Resize the image
     # Convert image to numpy array and normalize if required
     # image = np.array(image)  # Normalize to [0, 1] if required
@@ -35,9 +36,8 @@ if st.button('Recognize the selected image'):
     if image is not None:
         # Prediction
         img_pred = model.predict(image)
-        
         # Display the recognized image
-        if img_pred == 0:
-            st.success('The image is a Dog.')
+        if model.predict(image) > 0.5:
+            st.write('Cat')
         else:
-            st.success('The image is a Cat.')
+            st.write('Dog')
